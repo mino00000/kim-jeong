@@ -1,0 +1,41 @@
+version: "3.4"
+services:
+  db:
+    container_name: "mysql_db"
+    cap_add:
+      - SYS_NICE
+    build:
+      context: ./db
+    volumes:
+      - ./data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: company
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 1234
+
+      TZ: Asia/Seoul
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "mysql", "-uuser", "-p1234", "--execute", "show databases;" ]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 30s
+  app:
+    container_name: "node_app"
+    build:
+      context: ./app
+    environment:
+      MYSQL_HOST: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: company
+    ports:
+      - "3000:3000"
+    links:
+      - db
+    depends_on:
+      - db
+    command: [ "npm", "start" ]

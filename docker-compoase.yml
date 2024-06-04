@@ -1,41 +1,57 @@
 version: "3.4"
 services:
+  # DB 서비스 정의
   db:
+    # 컨테이너 이름을 "mysql_db"로 지정
     container_name: "mysql_db"
+    # SYS_NICE 기능을 컨테이너에 추가
     cap_add:
       - SYS_NICE
+    # ./db 디렉토리의 Dockerfile을 사용하여 이미지를 빌드
     build:
       context: ./db
+    # 호스트의 ./db_data 디렉토리를 컨테이너의 /var/lib/mysql에 마운트
     volumes:
-      - ./data:/var/lib/mysql
+      - ./db_data:/var/lib/mysql
+    # 컨테이너 내 환경 변수를 설정
     environment:
-      MYSQL_DATABASE: company
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_USER: user
-      MYSQL_PASSWORD: 1234
-
-      TZ: Asia/Seoul
+      MYSQL_DATABASE: company  # 생성할 데이터베이스 이름
+      MYSQL_ROOT_PASSWORD: 1234  # MySQL 루트 사용자의 비밀번호
+      MYSQL_USER: user  # 일반 사용자의 이름
+      MYSQL_PASSWORD: 1234  # 일반 사용자의 비밀번호
+      TZ: Asia/Seoul  # 컨테이너의 시간대를 서울로 설정
+    # 호스트의 포트 3306을 컨테이너의 포트 3306에 매핑
     ports:
       - "3306:3306"
+    # 컨테이너의 상태를 확인하는 헬스체크 설정
     healthcheck:
-      test: [ "CMD", "mysql", "-uuser", "-p1234", "--execute", "show databases;" ]
-      interval: 30s
-      timeout: 30s
-      retries: 3
-      start_period: 30s
+      test: [ "CMD", "mysql", "-uuser", "-p1234", "--execute", "show databases;" ]  # 헬스체크 명령어
+      interval: 30s  # 헬스체크를 실행하는 간격
+      timeout: 30s  # 헬스체크 명령어의 타임아웃
+      retries: 3  # 실패 시 재시도 횟수
+      start_period: 30s  # 컨테이너 시작 후 헬스체크를 시작하기까지의 대기 시간
+
+  # 애플리케이션 서비스 정의
   app:
+    # 컨테이너 이름을 "node_app"으로 지정
     container_name: "node_app"
+    # ./app 디렉토리의 Dockerfile을 사용하여 이미지를 빌드
     build:
       context: ./app
+    # 컨테이너 내 환경 변수를 설정
     environment:
-      MYSQL_HOST: db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: 1234
-      MYSQL_DATABASE: company
+      MYSQL_HOST: db  # MySQL 데이터베이스 호스트 이름
+      MYSQL_USER: user  # MySQL 사용자 이름
+      MYSQL_PASSWORD: 1234  # MySQL 사용자 비밀번호
+      MYSQL_DATABASE: company  # 사용할 데이터베이스 이름
+    # 호스트의 포트 3000을 컨테이너의 포트 3000에 매핑
     ports:
       - "3000:3000"
+    # "db" 서비스와 링크를 설정
     links:
       - db
+    # "db" 서비스가 시작된 후 이 서비스가 시작되도록 설정
     depends_on:
       - db
+    # 컨테이너가 시작될 때 실행할 명령어
     command: [ "npm", "start" ]

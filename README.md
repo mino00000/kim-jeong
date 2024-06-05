@@ -49,17 +49,21 @@
 > $ docker-compose up -d
 
 ## 디렉토리 구조
-> ├── db
-> │   ├── Dockerfile
-> │   └── company.sql
-> ├── docker-compose.yaml
-> └── app
->     ├── Dockerfile
->     ├── app.js
->     ├── edit.html
->     ├── insert.html
->     ├── list.html
->     └── package.json
+> 프로젝트의 디렉토리 구조는 다음과 같습니다:
+
+```
+├── db
+│   ├── Dockerfile
+│   └── company.sql
+├── docker-compose.yaml
+└── app
+    ├── Dockerfile
+    ├── app.js
+    ├── edit.html
+    ├── insert.html
+    ├── list.html
+    └── package.json
+```
 
     
 

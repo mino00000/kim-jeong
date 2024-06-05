@@ -35,34 +35,31 @@
 > - Docker Hub
 
 ## 설치
-# 레포지토리를 클론합니다
-git clone https://github.com/mino00000/kim-jeong.git
+> git clone https://github.com/mino00000/kim-jeong.git
 
 # 디렉토리로 이동합니다
-cd ~/kim-jeong
+> cd ~/kim-jeong
 
 # 사용법
-# Docker Compose로 컨테이너를 실행합니다
-docker-compose up -d
+> # Docker Compose로 컨테이너를 실행합니다
+> docker-compose up -d
 
-# Node.js 또는 MySQL 컨테이너가 제대로 열리지 않는다면
-docker-compose down
-
-# 다시 Docker Compose로 컨테이너를 실행합니다
-docker-compose up -d
+> # Node.js 또는 MySQL 컨테이너가 제대로 열리지 않는다면
+> docker-compose down
+> docker-compose up -d
 
 # 디렉토리 구조
-├── db
-│   ├── Dockerfile
-│   └── company.sql
-├── docker-compose.yaml
-└── app
-    ├── Dockerfile
-    ├── app.js
-    ├── edit.html
-    ├── insert.html
-    ├── list.html
-    └── package.json
+> ├── db
+> │   ├── Dockerfile
+> │   └── company.sql
+> ├── docker-compose.yaml
+> └── app
+>     ├── Dockerfile
+>     ├── app.js
+>     ├── edit.html
+>     ├── insert.html
+>     ├── list.html
+>     └── package.json
 
     
 

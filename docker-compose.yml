@@ -1,3 +1,6 @@
+
+
+
 version: "3.4"
 services:
   # DB 서비스 정의
@@ -37,7 +40,8 @@ services:
     container_name: "node_app"
     # ./app 디렉토리의 Dockerfile을 사용하여 이미지를 빌드
     build:
-      context: ./app
+      context: .
+      dockerfile: ./app/Dockerfile
     # 컨테이너 내 환경 변수를 설정
     environment:
       MYSQL_HOST: db  # MySQL 데이터베이스 호스트 이름
@@ -55,3 +59,4 @@ services:
       - db
     # 컨테이너가 시작될 때 실행할 명령어
     command: [ "npm", "start" ]
+

@@ -16,5 +16,10 @@ EXPOSE 3306
 # 이 디렉토리는 MySQL 컨테이너 초기화 시 자동으로 실행되는 스크립트들을 위한 디렉토리입니다
 COPY ./company.sql /docker-entrypoint-initdb.d/
 
+# 호스트의 my.cnf 파일을 컨테이너의 /etc/mysql/my.cnf로 복사
+# DB에 한글이 들어가지 않는 것을 해결하기 위해 설정파일 변경을 위한 과정
+COPY ./my.cnf /etc/mysql/my.cnf
+
 # 컨테이너가 시작될 때 MySQL 서버를 실행하도록 설정
 CMD ["mysqld"]
+

@@ -55,4 +55,6 @@ services:
     depends_on:
       - db
     # 컨테이너가 시작될 때 실행할 명령어
+
+
     command: [ "npm", "start" ]
